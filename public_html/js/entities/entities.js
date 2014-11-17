@@ -22,11 +22,11 @@ game.PlayerEntity = me.Entity.extend({
     
     update: function(delta){
         if(me.input.isKeyPressed("left")) {
-            this.Xflip(true);
-            this.body.vel.x += this.body.accel.x * me.timer.tick;
-        }
+            this.flipX(true);
+            this.body.vel.x -= this.body.accel.x * me.timer.tick;
+        } 
         else if(me.input.isKeyPressed("right")) {
-            this.Xflip(false);
+            this.flipX(false);
             this.body.vel.x += this.body.accel.x * me.timer.tick;
         }
         else {
@@ -48,5 +48,18 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     }
     
+    
+});
+
+game.LevelTrigger = me.Entity.extend({
+    init: function(x, y, settings){
+        this._super(me.Entity, "init", [x, y, settings]);
+    
+    
+    },
+    
+    onCollision: function(){
+        
+    }
     
 });
