@@ -7,6 +7,7 @@ game.resources = [
         
         {name: "background-tiles", type:"image", src: "data/img/background-tiles.png"},
         {name: "meta-tiles", type:"image", src: "data/img/meta-tiles.png"},
+        {name: "item-spritesheet", type:"image", src: "data/img/item-spritesheet.png"},
         {name: "mario", type:"image", src: "data/img/player1.png"},
 
 	/* Atlases 
@@ -21,6 +22,10 @@ game.resources = [
  	 */
         
         {name: "Ludvig-Level-00", type: "tmx", src: "data/map/Ludvig-Level-00.tmx"},
+        {name: "Ludvig-Level-00-(2)", type: "tmx", src: "data/map/Ludvig-Level-00-(2).tmx"},
+        {name: "Ludvig-Level-00-(3)", type: "tmx", src: "data/map/Ludvig-Level-00-(3).tmx"},
+        {name: "Ludvig-Level-00-(4)", type: "tmx", src: "data/map/Ludvig-Level-00-(4).tmx"},
+        {name: "Ludvig-Level-00-(5)", type: "tmx", src: "data/map/Ludvig-Level-00-(5).tmx"},
         {name: "Ludvig-Level-01", type: "tmx", src: "data/map/Ludvig-Level-01.tmx"},
         {name: "Ludvig-Level-02", type: "tmx", src: "data/map/Ludvig-Level-02.tmx"}
         
