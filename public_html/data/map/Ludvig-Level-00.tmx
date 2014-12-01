@@ -33,6 +33,8 @@
   <object name="levelTrigger" x="212" y="492" width="64" height="136">
    <properties>
     <property name="level" value="Ludvig-Level-01"/>
+    <property name="xSpawn" value="0"/>
+    <property name="ySpawn" value="420"/>
    </properties>
   </object>
   <object name="levelTrigger" x="560" y="488" width="64" height="140">

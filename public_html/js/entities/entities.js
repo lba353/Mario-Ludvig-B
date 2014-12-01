@@ -34,6 +34,13 @@ game.PlayerEntity = me.Entity.extend({
             this.body.vel.x = 0;
         }
         
+        if(me.input.isKeyPressed("jump")) {
+           if (!this.body.jumping && !this.body.falling) {
+                this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                this.body.jumping = true;
+           }
+        }
+        
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
         
