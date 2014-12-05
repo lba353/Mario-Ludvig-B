@@ -39,11 +39,16 @@ var game = {
 
 	// Run on game resources loaded.
 	"loaded" : function () {
+            
+                //Registers Mario, the items, and the bad guys as entities.
                 me.pool.register("mario", game.PlayerEntity, true);
                 me.pool.register("BadGuy", game.BadGuy);
+                me.pool.register("mushroom", game.Mushroom);
                 
+                //Registers the level trigger function
                 me.pool.register("levelTrigger", game.LevelTrigger);
             
+                //Makes different states.
 		me.state.set(me.state.MENU, new game.TitleScreen());
 		me.state.set(me.state.PLAY, new game.PlayScreen());
 

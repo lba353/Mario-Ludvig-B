@@ -18,15 +18,24 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.setCurrentAnimation("idle");
         
         this.body.setVelocity(5, 20);
+        
+        //The camera follows the character.
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
     },
     
     update: function(delta){
+        
+        //Check if the right button is pressed
         if(me.input.isKeyPressed("left")) {
+            
+            //This says to unflip the image if it is flipped.
             this.flipX(true);
+            //Adds the spped set in the setVeelocity method above to our current position and multiplies be timer.tick to.
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
         } 
         else if(me.input.isKeyPressed("right")) {
+            
+            //Flips the image
             this.flipX(false);
             this.body.vel.x += this.body.accel.x * me.timer.tick;
         }
@@ -59,6 +68,8 @@ game.PlayerEntity = me.Entity.extend({
     },
     
     collideHandler: function(response){
+        
+        //Sets ydif as the difference in position in between Mario and whatever he hit so we can see if Mario jumoed on something.
         var ydif = this.pos.y - response.b.pos.y;
         console.log(ydif);
         
@@ -136,6 +147,8 @@ game.BadGuy = me.Entity.extend ({
             }
             
             this.flipX(!this.walkLeft);
+            //We are adding an amount to our current position, but to decide whether to add a + or - amount, we check to see if
+            //this.walkLeft is true. If it is then we do the code to the left. If not, then we do the code to our right.  
             this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
             
         }
@@ -148,6 +161,25 @@ game.BadGuy = me.Entity.extend ({
     },
     
     collideHandler: function() {
+        
+    }
+});
+
+game.Mushroom = me.Entity.extend ({
+    init: function(x, y, settings) {
+        this._super(me.Entity, "init", [x, y, {
+                image: "mushroom",
+                spritewidth: "64",
+                spriteheight: "64",
+                width: 64,
+                height: 64,
+                getShape: function() {
+                    return (new me.Rect(0, 0, 64, 64)).toPolygon();
+                }
+        }]);
+    
+        me.collision.check(this);
+        this.type = "mushroom";
         
     }
 });

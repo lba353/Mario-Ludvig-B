@@ -6,10 +6,13 @@ game.PlayScreen = me.ScreenObject.extend({
 		// reset the score
 		game.data.score = 0;
                 
+                //Starts the game at this level.
                 me.levelDirector.loadLevel("Ludvig-Level-00");
                 
+                //The player starts at this position
                 this.resetPlayer(0, 420);
                 
+                //This binds keys whenever a certain name is called.
                 me.input.bindKey(me.input.KEY.RIGHT, "right");
                 me.input.bindKey(me.input.KEY.LEFT, "left");
                 me.input.bindKey(me.input.KEY.UP, "jump");
