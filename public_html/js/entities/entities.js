@@ -1,6 +1,7 @@
-// TODO
+// Player (Mario) Codes
 game.PlayerEntity = me.Entity.extend({
     init: function(x, y, settings){
+        //Sets mario's widht and height.
         this._super(me.Entity, "init", [x, y, {
              image: "mario",
              spritewidth: "128",
@@ -11,7 +12,8 @@ game.PlayerEntity = me.Entity.extend({
                  return (new me.Rect(0, 0, 30, 128)).toPolygon();
              }
         }]);
-    
+        
+        //Different animations that Mario uses.
         this.renderable.addAnimation("idle", [3]);
         this.renderable.addAnimation("bigIdle", [0]);
         this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12, 13], 80);
@@ -19,8 +21,10 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.addAnimation("shrink", [0, 1, 2, 3], 80);
         this.renderable.addAnimation("grow", [4, 5, 6, 7], 80);
         
+        //His current animation when the game starts.
         this.renderable.setCurrentAnimation("idle");
         
+        //His running and jumping speed.
         this.body.setVelocity(5, 20);
         
         //The camera follows the character.
@@ -59,7 +63,7 @@ game.PlayerEntity = me.Entity.extend({
         
         if(!this.big){
             if(this.body.vel.x !== 0) {
-                if(!this.renderable.isCurrentAnimation("smallWalk")) {
+                if(!this.renderable.isCurrentAnimation("smallWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation("shrink")) {
                     this.renderable.setCurrentAnimation("smallWalk");
                     this.renderable.setAnimationFrame();
                 }
@@ -70,7 +74,7 @@ game.PlayerEntity = me.Entity.extend({
         }
         else{
             if(this.body.vel.x !== 0) {
-                if(!this.renderable.isCurrentAnimation("bigWalk")) {
+                if(!this.renderable.isCurrentAnimation("bigWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation("shrink")) {
                     this.renderable.setCurrentAnimation("bigWalk");
                     this.renderable.setAnimationFrame();
                 }
@@ -96,23 +100,31 @@ game.PlayerEntity = me.Entity.extend({
                 response.b.alive = false;
             }
             else {
+                //This code shows what to do if it is big.
                 if(this.big){
                     this.big = false;
                     this.body.vel.y -= this.body.accel.y * me.timer.tick;
                     this.jumping = true;
+                    this.renderable.setCurrentAnimation("shrink", "idle");
+                    this.renderable.setAnimationFrame();
                 }
                 else{
-                me.state.change(me.state.MENU);
+                //What to do when he dies.
+                me.state.change(me.state.GAMEOVER);
                 }
             }
         }
+        //what do to if he eaets a mushroom.
         else if(response.b.type === 'mushroom') {
+            this.renderable.setCurrentAnimation("grow", "bigIdle");
+            this.renderable.setAnimationFrame();
             this.big = true;
             me.game.world.removeChild(response.b);
         }
     }
 });
     
+ //Level Trigger Code
 game.LevelTrigger = me.Entity.extend({
     init: function(x, y, settings){
         this._super(me.Entity, 'init', [x, y, settings]);
@@ -130,14 +142,15 @@ game.LevelTrigger = me.Entity.extend({
     
 });
 
+//Bad Guy Code
 game.BadGuy = me.Entity.extend ({
     init: function(x, y, settings) {
         this._super(me.Entity, "init", [x, y, {
-             image: "slime",
-             spritewidth: "60",
-             spriteheight: "28",
-             width: 60,
-             height: 28,
+             image: "enemy",
+             spritewidth: "64",
+             spriteheight: "64",
+             width: 128,
+             height: 128,
              getShape: function() {
                  return (new me.Rect(0, 0, 60, 28)).toPolygon();
              }
@@ -157,7 +170,7 @@ game.BadGuy = me.Entity.extend ({
         this.alive = true;
         this.type = "badguy";
         
-        this.renderable.addAnimation("run", [0, 1, 2], 80);
+        this.renderable.addAnimation("run", [117, 118, 119, 120, 121, 122, 123, 124, 125], 100);
         this.renderable.setCurrentAnimation("run");
         
         this.body.setVelocity(4, 6);
@@ -194,6 +207,7 @@ game.BadGuy = me.Entity.extend ({
     }
 });
 
+//Mushroom Code
 game.Mushroom = me.Entity.extend ({
     init: function(x, y, settings) {
         this._super(me.Entity, "init", [x, y, {
