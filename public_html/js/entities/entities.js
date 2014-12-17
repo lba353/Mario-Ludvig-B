@@ -20,6 +20,10 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.addAnimation("bigWalk", [14, 15, 16, 17, 18, 19], 80);
         this.renderable.addAnimation("shrink", [0, 1, 2, 3], 80);
         this.renderable.addAnimation("grow", [4, 5, 6, 7], 80);
+        this.renderable.addAnimation("bigInvincible", [26, 27, 28, 29, 30], 80);
+        this.renderable.addAnimation("invincible", [36, 37, 38, 39, 40], 80);
+        this.renderable.addAnimation("invincibleIdle", [30], 80);
+        this.renderable.addAnimation("bigInvincibleIdle", [40], 80);
         
         //His current animation when the game starts.
         this.renderable.setCurrentAnimation("idle");
@@ -63,7 +67,7 @@ game.PlayerEntity = me.Entity.extend({
         
         if(!this.big){
             if(this.body.vel.x !== 0) {
-                if(!this.renderable.isCurrentAnimation("smallWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation("shrink")) {
+                if(!this.renderable.isCurrentAnimation("smallWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation("shrink") && !this.renderable.isCurrentAnimation("invincible")) {
                     this.renderable.setCurrentAnimation("smallWalk");
                     this.renderable.setAnimationFrame();
                 }
@@ -74,7 +78,7 @@ game.PlayerEntity = me.Entity.extend({
         }
         else{
             if(this.body.vel.x !== 0) {
-                if(!this.renderable.isCurrentAnimation("bigWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation("shrink")) {
+                if(!this.renderable.isCurrentAnimation("bigWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation("shrink") && !this.renderable.isCurrentAnimation("bigInvincible")) {
                     this.renderable.setCurrentAnimation("bigWalk");
                     this.renderable.setAnimationFrame();
                 }
@@ -108,18 +112,41 @@ game.PlayerEntity = me.Entity.extend({
                     this.renderable.setCurrentAnimation("shrink", "idle");
                     this.renderable.setAnimationFrame();
                 }
+                else if(this.invincible){
+                    response.b.alive = false;
+                }
                 else{
                 //What to do when he dies.
                 me.state.change(me.state.GAMEOVER);
                 }
             }
         }
-        //what do to if he eaets a mushroom.
+        //what to do if he eats a mushroom.
         else if(response.b.type === 'mushroom') {
             this.renderable.setCurrentAnimation("grow", "bigIdle");
             this.renderable.setAnimationFrame();
             this.big = true;
             me.game.world.removeChild(response.b);
+        }
+        
+        //what to do if he gets a star.
+        else if(response.b.type === 'star') {
+            if(!this.big) {
+                this.renderable.setCurrentAnimation("invincible", "invincibleIdle");
+                this.renderable.setAnimationFrame();
+                this.invincibility = true;
+                me.game.world.removeChild(response.b);
+                setInterval("invincible", 6000);
+                setInterval("invincibleIdle", 6000);
+            }    
+            else {
+                this.renderable.setCurrentAnimation("bigInvincible", "bigInvincibleIdle");
+                this.renderable.setAnimationFrame();
+                this.invincibility = true;
+                me.game.world.removeChild(response.b);
+                setInterval("bigInvincible", 6000);
+                setInterval("bigInvincibleIdle", 6000);
+            }
         }
     }
 });
@@ -152,7 +179,7 @@ game.BadGuy = me.Entity.extend ({
              width: 128,
              height: 128,
              getShape: function() {
-                 return (new me.Rect(0, 0, 60, 28)).toPolygon();
+                 return (new me.Rect(0, 0, 64, 64)).toPolygon();
              }
         }]);
     
@@ -223,6 +250,26 @@ game.Mushroom = me.Entity.extend ({
     
         me.collision.check(this);
         this.type = "mushroom";
+        
+    }
+});
+
+//Star Code
+game.Star = me.Entity.extend ({
+    init: function(x, y, settings) {
+        this._super(me.Entity, "init", [x, y, {
+                image: "star",
+                spritewidth: "64",
+                spriteheight: "64",
+                width: 64,
+                height: 64,
+                getShape: function() {
+                    return (new me.Rect(0, 0, 64, 64)).toPolygon();
+                }
+        }]);
+    
+        me.collision.check(this);
+        this.type = "star";
         
     }
 });

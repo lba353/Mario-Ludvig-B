@@ -44,6 +44,7 @@ var game = {
                 me.pool.register("mario", game.PlayerEntity, true);
                 me.pool.register("BadGuy", game.BadGuy);
                 me.pool.register("mushroom", game.Mushroom);
+                me.pool.register("star", game.Star);
                 
                 //Registers the level trigger function
                 me.pool.register("levelTrigger", game.LevelTrigger);

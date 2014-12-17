@@ -55,4 +55,7 @@
   <object name="BadGuy" x="2520" y="1044" width="412" height="76"/>
   <object name="BadGuy" x="2876" y="1388" width="328" height="80"/>
  </objectgroup>
+ <objectgroup color="#55ff00" name="CollectableEntities">
+  <object name="Star" x="212" y="1400" width="64" height="72"/>
+ </objectgroup>
 </map>

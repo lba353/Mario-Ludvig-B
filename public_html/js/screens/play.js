@@ -7,7 +7,7 @@ game.PlayScreen = me.ScreenObject.extend({
 		game.data.score = 0;
                 
                 //Starts the game at this level.
-                me.levelDirector.loadLevel("Ludvig-Level-00");
+                me.levelDirector.loadLevel("Ludvig-Level-02");
                 
                 //The player starts at this position
                 this.resetPlayer(0, 420);
