@@ -95,6 +95,9 @@ game.PlayerEntity = me.Entity.extend({
     
     collideHandler: function(response){
         
+        //Sets timeTracker as how long should the star be running for.
+        var timeTracker = .1 * 60 * 1000;
+        
         //Sets ydif as the difference in position in between Mario and whatever he hit so we can see if Mario jumoed on something.
         var ydif = this.pos.y - response.b.pos.y;
         console.log(ydif);
@@ -130,22 +133,22 @@ game.PlayerEntity = me.Entity.extend({
         }
         
         //what to do if he gets a star.
-        else if(response.b.type === 'star') {
+        else if(response.b.type === 'star') {            
             if(!this.big) {
                 this.renderable.setCurrentAnimation("invincible", "invincibleIdle");
                 this.renderable.setAnimationFrame();
-                this.invincibility = true;
-                me.game.world.removeChild(response.b);
-                setInterval("invincible", 6000);
-                setInterval("invincibleIdle", 6000);
+                this.invincible = true;
+                timeTracker -= me.timer.getTime();
+                timeTracker -= me.timer.getTime();
+                me.game.world.removeChild(response.b);                
             }    
             else {
                 this.renderable.setCurrentAnimation("bigInvincible", "bigInvincibleIdle");
                 this.renderable.setAnimationFrame();
-                this.invincibility = true;
+                this.invincible = true;
+                timeTracker -= me.timer.getTime();
+                timeTracker -= me.timer.getTime();
                 me.game.world.removeChild(response.b);
-                setInterval("bigInvincible", 6000);
-                setInterval("bigInvincibleIdle", 6000);
             }
         }
     }
